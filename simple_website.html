@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company — Simple Website</title>
+    <meta name="description" content="A simple, responsive company website with navbar and introduction section.">
+    <style>
+        :root{
+            --bg:#0f1724;
+            --card:#0b1220;
+            --accent:#06b6d4;
+            --muted:#94a3b8;
+            --text:#e6eef6;
+            --radius:10px;
+            --container:1100px;
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial;
+        }
+        *{box-sizing:border-box}
+        html,body{height:100%}
+        body{
+            margin:0;
+            background:linear-gradient(180deg,var(--bg),#071124 120%);
+            color:var(--text);
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+            line-height:1.5;
+        }
+        .container{max-width:var(--container);margin:0 auto;padding:0 20px}
+
+        /* Navbar */
+        .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+        .brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:1.125rem}
+        .brand .logo{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),#7c3aed);border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-weight:800;color:#021124}
+        nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0}
+        /* Nav links: animated underline + subtle scale */
+        nav a{color:var(--text);text-decoration:none;font-weight:600;position:relative;display:inline-block;padding:6px 2px;transition:color .22s ease,transform .18s ease}
+        nav a::after{content:'';position:absolute;left:0;right:0;bottom:-4px;height:3px;background:linear-gradient(90deg,var(--accent),#7c3aed);border-radius:3px;transform:scaleX(0);transform-origin:left center;transition:transform .28s cubic-bezier(.2,.9,.2,1),opacity .2s ease;opacity:0}
+        nav a:hover{color:var(--accent);transform:translateY(-2px)}
+        nav a:hover::after{transform:scaleX(1);opacity:1}
+
+        /* subtle focus styles for accessibility */
+        nav a:focus{outline:2px solid rgba(6,182,212,0.18);outline-offset:4px}
+
+        .cta{background:var(--accent);color:#012029;padding:8px 14px;border-radius:8px;font-weight:700;text-decoration:none;display:inline-block;transition:transform .18s ease,box-shadow .18s ease}
+        .cta:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(6,182,212,0.12)}
+
+        /* Mobile */
+        .menu-toggle{display:none;background:transparent;border:0;color:var(--text);font-size:20px;cursor:pointer;transition:transform .2s ease}
+        .menu-toggle.open{transform:rotate(90deg)}
+
+        /* Mobile nav uses max-height + opacity for smooth open/close */
+        .mobile-nav{max-height:0;overflow:hidden;opacity:0;transition:max-height .36s cubic-bezier(.2,.9,.2,1),opacity .2s ease;padding:0}
+        .mobile-nav.open{max-height:420px;opacity:1;padding-top:12px}
+
+        /* Hero */
+        .hero{display:flex;align-items:center;gap:40px;padding:48px 0}
+        .hero-left{flex:1}
+        .eyebrow{color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:1px}
+        h1{font-size:2rem;margin:12px 0 10px}
+        p.lead{color:var(--muted);max-width:60ch}
+        .hero-actions{margin-top:18px;display:flex;gap:12px}
+
+        /* Card */
+        .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:22px;border-radius:var(--radius);box-shadow:0 6px 20px rgba(2,6,23,0.6);transition: transform 0.3s ease, box-shadow 0.3s ease;}
+        .card:hover{transform: translateY(-5px); box-shadow: 0 12px 40px rgba(2,6,23,0.8);}
+
+        /* Sections */
+        section{padding:36px 0}
+        .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+        .muted{color:var(--muted)}
+
+        footer{padding:28px 0;color:var(--muted);border-top:1px solid rgba(255,255,255,0.03)}
+
+        /* Responsive */
+        @media (max-width:1200px){
+            .container{padding:0 15px}
+            .hero{gap:30px}
+        }
+        @media (max-width:900px){
+            h1{font-size:1.8rem}
+            .hero{flex-direction:column;align-items:flex-start;gap:20px;padding:32px 0}
+            nav ul{display:none}
+            .menu-toggle{display:inline-block}
+            .mobile-nav{display:block}
+            .mobile-nav ul{list-style:none;padding:12px 0;margin:0;display:flex;flex-direction:column;gap:12px}
+            .grid-3{grid-template-columns:repeat(2,1fr)}
+            .card{padding:18px}
+        }
+        @media (max-width:768px){
+            .nav{padding:14px 0}
+            .brand{font-size:1rem}
+            .brand .logo{width:36px;height:36px}
+            h1{font-size:1.6rem}
+            .hero-actions{flex-direction:column;align-items:flex-start;gap:10px}
+            .grid-3{grid-template-columns:1fr}
+            section{padding:24px 0}
+            .card{padding:16px}
+        }
+        @media (max-width:480px){
+            .container{padding:0 10px}
+            .nav{flex-direction:column;gap:10px;padding:12px 0}
+            .brand{justify-content:center}
+            h1{font-size:1.4rem;margin:8px 0}
+            p.lead{max-width:100%}
+            .hero{padding:20px 0}
+            .card{padding:14px}
+            .cta{padding:6px 12px;font-size:0.9rem}
+            .muted{font-size:0.9rem}
+            footer{padding:20px 0}
+        }
+    </style> 
+</head>
+<body>
+    <header class="container">
+        <div class="nav">
+            <div class="brand">
+                <div class="logo">C</div>
+                <div>
+                    <div style="line-height:1">Company</div>
+                    <div class="muted" style="font-size:12px">Reliable · Creative · Local</div>
+                </div>
+            </div>
+
+            <a class="cta" href="#contact">Get Started</a>
+
+            <nav aria-label="Main navigation">
+                <button class="menu-toggle" aria-expanded="false" aria-controls="site-menu" id="menuToggle">☰</button>
+                <ul id="site-menu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="mobile-nav" id="mobileNav">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="home" class="hero">
+            <div class="hero-left">
+                <div class="eyebrow">Welcome to Company</div>
+                <h1>We help businesses grow with thoughtful design and engineering</h1>
+                <p class="lead">Company is a full-service partner offering product strategy, web and mobile development, and brand design. We combine creativity and technical excellence to deliver measurable results.</p>
+
+                <div class="hero-actions">
+                    <a class="cta" href="#contact">Work with us</a>
+                    <a href="#about" style="color:var(--text);text-decoration:underline">Learn more</a>
+                </div>
+            </div>
+
+            <div style="flex:1;display:flex;justify-content:center;align-items:center">
+                <div class="card" style="width:100%;max-width:420px">
+                    <h3 style="margin:0 0 8px">About Company</h3>
+                    <p class="muted">Founded in 20XX, Company partners with organizations of all sizes to build delightful products. We emphasize clear communication, pragmatic timelines, and results-focused work.</p>
+                    <ul class="muted" style="margin-top:12px;padding-left:18px">
+                        <li>Discovery & product strategy</li>
+                        <li>Web & mobile development</li>
+                        <li>Design systems & branding</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="card">
+                <h2>Company Introduction</h2>
+                <p class="muted">Customize this section to briefly introduce the company. Mention mission, core values, and what sets the company apart. Keep it concise — a paragraph or two is usually ideal for an intro on a simple site.</p>
+            </div>
+        </section>
+
+        <section id="services">
+            <h2>Services</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>Design</h3>
+                    <p class="muted">User-centered visual and interaction design to make products usable and delightful.</p>
+                </div>
+                <div class="card">
+                    <h3>Development</h3>
+                    <p class="muted">Robust web and mobile engineering, scalable backends, and maintainable frontends.</p>
+                </div>
+                <div class="card">
+                    <h3>Strategy</h3>
+                    <p class="muted">Product strategy, research, and roadmapping to align work with business goals.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="card">
+                <h2>Contact</h2>
+                <p class="muted">Ready to start? Email us at <a href="mailto:hello@company.example" style="color:var(--accent)">hello@company.example</a> or use this simple contact form.</p>
+                <form id="contactForm" style="margin-top:12px;display:grid;gap:8px;max-width:480px">
+                    <input type="text" name="name" placeholder="Your name" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)">
+                    <input type="email" name="email" placeholder="Email" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)" required>
+                    <textarea name="message" rows="4" placeholder="Message" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)"></textarea>
+                    <button type="submit" class="cta" style="width:fit-content">Send</button>
+                    <div id="formStatus" style="margin-top:8px;color:var(--muted)"></div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="container">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+            <div class="muted">© <span id="year"></span> Company. All rights reserved.</div>
+            <div class="muted">Made with care · <a href="#" style="color:var(--accent);text-decoration:none">Privacy</a></div>
+        </div>
+    </footer>
+
+    <script>
+        // Set year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile menu toggle (class-based for animation)
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        function toggleMobileNav(){
+            const isOpen = mobileNav.classList.toggle('open');
+            menuToggle.classList.toggle('open', isOpen);
+            menuToggle.setAttribute('aria-expanded', String(isOpen));
+        }
+        if(menuToggle){
+            menuToggle.addEventListener('click', toggleMobileNav);
+        }
+        // Close mobile menu when a mobile link is clicked
+        mobileNav && mobileNav.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', () => {
+                if(mobileNav.classList.contains('open')){
+                    mobileNav.classList.remove('open');
+                    menuToggle.classList.remove('open');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+
+        // Smooth scrolling for in-page links
+        document.querySelectorAll('a[href^="#"]').forEach(a=>{
+            a.addEventListener('click', function(e){
+                const href = this.getAttribute('href');
+                if(href.length>1){
+                    e.preventDefault();
+                    const el = document.querySelector(href);
+                    if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+                }
+            });
+        });
+
+        // Contact form submission (AJAX) — posts to the server at /api/contact
+        const contactForm = document.getElementById('contactForm');
+        if(contactForm){
+            contactForm.addEventListener('submit', async function(e){
+                e.preventDefault();
+                const statusEl = document.getElementById('formStatus');
+                const data = {
+                    name: this.name.value || '',
+                    email: this.email.value || '',
+                    message: this.message.value || ''
+                };
+                try{
+                    statusEl.textContent = 'Sending...';
+                    const res = await fetch('/api/contact', {
+                        method: 'POST',
+                        headers: {'Content-Type':'application/json'},
+                        body: JSON.stringify(data)
+                    });
+                    const json = await res.json();
+                    if(json.ok){
+                        statusEl.textContent = 'Thanks — message sent.';
+                        this.reset();
+                    } else {
+                        statusEl.textContent = 'Error: ' + (json.error || 'Unknown error');
+                    }
+                } catch(err){
+                    statusEl.textContent = 'Network error: ' + err.message;
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+[
+  {
+    "receivedAt": "2025-12-18T06:32:13.267Z",
+    "name": "Automated Test",
+    "email": "test@example.com",
+    "message": "Hello from automated test"
+  },
+  {
+    "receivedAt": "2025-12-18T06:33:53.052Z",
+    "name": "gsk",
+    "email": "gargie901@gmail.com",
+    "message": "hii "
+  }
+]
